@@ -1,6 +1,7 @@
-[submodule "ocgcore"]
-	path = ocgcore
-	url = https://github.com/Fluorohydride/ygopro-core.git
 [submodule "script"]
 	path = script
 	url = https://github.com/Fluorohydride/ygopro-scripts.git
+[submodule "pics"]
+	path = pics
+	url = https://github.com/mycard/ygopro-images
+	branch = zh-CN
