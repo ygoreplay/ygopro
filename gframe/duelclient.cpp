@@ -8,9 +8,7 @@
 #include "game.h"
 #include "replay.h"
 #include "replay_mode.h"
-
 namespace ygo {
-
 unsigned DuelClient::connect_state = 0;
 unsigned char DuelClient::response_buf[64];
 unsigned char DuelClient::response_len = 0;
@@ -442,7 +440,7 @@ void DuelClient::HandleSTOCPacketLan(char* data, unsigned int len) {
 		mainGame->dInfo.player_type = selftype;
 		break;
 	}
-	case STOC_DUEL_START: {
+	case STOC_DUEL_START:{ puts ("duel start");
 		mainGame->HideElement(mainGame->wHostPrepare);
 		mainGame->WaitFrameSignal(11);
 		mainGame->gMutex.Lock();
@@ -507,8 +505,10 @@ void DuelClient::HandleSTOCPacketLan(char* data, unsigned int len) {
 		mainGame->gMutex.Unlock();
 		match_kill = 0;
 		break;
+        
 	}
 	case STOC_DUEL_END: {
+		puts("duel end");
 		mainGame->gMutex.Lock();
 		if(mainGame->dInfo.player_type < 7)
 			mainGame->btnLeaveGame->setVisible(false);
