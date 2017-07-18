@@ -9,6 +9,7 @@
 #include "replay.h"
 #include "replay_mode.h"
 namespace ygo {
+
 unsigned DuelClient::connect_state = 0;
 unsigned char DuelClient::response_buf[64];
 unsigned char DuelClient::response_len = 0;
