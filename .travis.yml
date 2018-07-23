@@ -6,6 +6,8 @@ env:
   matrix:
   - locale: zh-CN
   - locale: en-US
+  global:
+  - USE_IRRKLANG: 1
 sudo: required
 dist: trusty
 osx_image: xcode8

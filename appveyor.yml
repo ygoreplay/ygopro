@@ -5,6 +5,7 @@ environment:
     - locale: zh-CN
 #    - locale: ja-JP
     - locale: en-US
+  irrklang_pro: 1
   access_token:
     secure: dAqGTWGo387j9Kaot54scDTRWzXGb3DBVPVcOIzQhNAvSt3WCvXA6xBYIFvPH4pQ
 
