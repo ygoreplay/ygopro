@@ -10,7 +10,6 @@ solution "ygo"
     end
 
     configurations { "Release", "Debug" }
-    defines { "LUA_COMPAT_5_2" }
     configuration "windows"
         defines { "WIN32", "_WIN32", "WINVER=0x0501" }
         libdirs { "$(DXSDK_DIR)Lib/x86" }
