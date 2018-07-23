@@ -30,6 +30,12 @@ before_install:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name http://downloads.sourceforge.net/irrlicht/irrlicht-1.8.4.zip; unzip irrlicht-1.8.4.zip ; cd irrlicht-1.8.4/ ; cp ../premake/irrlicht/irrlicht-mac.patch . ; patch -p1 < irrlicht-mac.patch ; cd source/Irrlicht/MacOSX/ ; xcodebuild -project MacOSX.xcodeproj ; cp build/Release/libIrrlicht.a /usr/local/lib/ ;  cp -r ../../../include /usr/local/include/irrlicht ; cd ../../../../ ; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget -O - https://github.com/premake/premake-core/releases/download/v5.0.0-alpha12/premake-5.0.0-alpha12-linux.tar.gz
   | tar zfx - ; wget -O - https://www.lua.org/ftp/lua-5.3.4.tar.gz | tar zfx -; cd lua-5.3.4; sudo make linux install; cd .. ; fi
+
+- git clone --depth=1 https://$IRRKLANG_ACCESS_KEY@github.com/purerosefallen/irrklang
+- mv -f irrklang/plugins/ikpmp3 .
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo cp -rf irrklang/bin/macosx-gcc/libirrklang.dylib /usr/local/lib/; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then cp -rf irrklang/bin/linux-gcc-64/libIrrKlang.so .; fi
+
 script:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./premake5 gmake --cc=clang; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./premake5 gmake; fi
@@ -65,12 +71,15 @@ before_deploy:
 - curl --location --retry 5 --output 'ygopro-starter-pack-master.zip' https://github.com/moecube/ygopro-starter-pack/archive/master.zip
 - unzip -q ygopro-starter-pack-master.zip
 - mv ygopro-starter-pack-master/* .
+- curl --location --retry 5 --output 'ygopro-starter-pack-master.zip' https://github.com/moecube/ygopro-sounds/archive/master.zip
+- unzip -q ygopro-sounds-master.zip
+- cp -rf ygopro-sounds-master/sound .
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then tar -zcf ygopro-$TRAVIS_TAG-$TRAVIS_OS_NAME-${locale}.tar.gz
   --format=posix --exclude='.git*' ygopro.app LICENSE README.md lflist.conf strings.conf
-  system.conf cards.cdb script textures deck single pics replay; fi
+  system.conf cards.cdb script textures deck single pics replay sound; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then tar -zcf ygopro-$TRAVIS_TAG-$TRAVIS_OS_NAME-${locale}.tar.gz
-  --format=posix --exclude='.git*' ygopro LICENSE README.md lflist.conf strings.conf
-  system.conf cards.cdb script textures deck single pics replay; fi
+  --format=posix --exclude='.git*' ygopro LICENSE README.md libIrrKlang.so lflist.conf strings.conf
+  system.conf cards.cdb script textures deck single pics replay sound; fi
 deploy:
   provider: releases
   file:

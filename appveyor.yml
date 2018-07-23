@@ -5,6 +5,8 @@ environment:
     - locale: zh-CN
 #    - locale: ja-JP
     - locale: en-US
+  access_token:
+    secure: dAqGTWGo387j9Kaot54scDTRWzXGb3DBVPVcOIzQhNAvSt3WCvXA6xBYIFvPH4pQ
 
 install:
   # fix tar xz
@@ -40,6 +42,9 @@ install:
   - 7z x sqlite-amalgamation-3200100.zip
   - move sqlite-amalgamation-3200100 sqlite3
 
+  - git clone --depth=1 https://%access_token%@github.com/purerosefallen/irrklang
+  - mv -f irrklang/plugins/ikpmp3 .
+
   # let premake happy
   - xcopy /E premake\* .
   
@@ -66,7 +71,10 @@ after_build:
   - curl --location --retry 5 --output ygopro-starter-pack-master.zip https://github.com/moecube/ygopro-starter-pack/archive/master.zip
   - unzip -q ygopro-starter-pack-master.zip
   - mv ygopro-starter-pack-master/* .
-  - tar -zcf ygopro-%APPVEYOR_REPO_TAG_NAME%-win32-%locale%.tar.gz --format=posix --exclude='.git*' ygopro.exe LICENSE README.md lflist.conf strings.conf system.conf cards.cdb script textures deck single pics replay
+  - curl --location --retry 5 --output 'ygopro-starter-pack-master.zip' https://github.com/moecube/ygopro-sounds/archive/master.zip
+  - unzip -q ygopro-sounds-master.zip
+  - cp -rf ygopro-sounds-master/sound .
+  - tar -zcf ygopro-%APPVEYOR_REPO_TAG_NAME%-win32-%locale%.tar.gz --format=posix --exclude='.git*' ygopro.exe LICENSE README.md lflist.conf strings.conf system.conf cards.cdb script textures deck single pics replay sound
 
 test: off
 
@@ -77,8 +85,7 @@ artifacts:
 deploy:
   description: 'Automatic build'
   provider: GitHub
-  auth_token:
-    secure: dAqGTWGo387j9Kaot54scDTRWzXGb3DBVPVcOIzQhNAvSt3WCvXA6xBYIFvPH4pQ # your encrypted token from GitHub
+  auth_token: $(access_token)
   on:
     appveyor_repo_tag: true        # deploy on tag push only
 
