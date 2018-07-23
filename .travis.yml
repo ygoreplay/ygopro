@@ -73,7 +73,7 @@ before_deploy:
 - curl --location --retry 5 --output 'ygopro-starter-pack-master.zip' https://github.com/moecube/ygopro-starter-pack/archive/master.zip
 - unzip -q ygopro-starter-pack-master.zip
 - mv ygopro-starter-pack-master/* .
-- curl --location --retry 5 --output 'ygopro-starter-pack-master.zip' https://github.com/moecube/ygopro-sounds/archive/master.zip
+- curl --location --retry 5 --output 'ygopro-sounds-master.zip' https://github.com/moecube/ygopro-sounds/archive/master.zip
 - unzip -q ygopro-sounds-master.zip
 - cp -rf ygopro-sounds-master/sound .
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then tar -zcf ygopro-$TRAVIS_TAG-$TRAVIS_OS_NAME-${locale}.tar.gz
