@@ -72,7 +72,7 @@ after_build:
   - curl --location --retry 5 --output ygopro-starter-pack-master.zip https://github.com/moecube/ygopro-starter-pack/archive/master.zip
   - unzip -q ygopro-starter-pack-master.zip
   - mv ygopro-starter-pack-master/* .
-  - curl --location --retry 5 --output 'ygopro-sounds-master.zip' https://github.com/moecube/ygopro-sounds/archive/master.zip
+  - curl --location --retry 5 --output ygopro-sounds-master.zip https://github.com/moecube/ygopro-sounds/archive/master.zip
   - unzip -q ygopro-sounds-master.zip
   - cp -rf ygopro-sounds-master/sound .
   - tar -zcf ygopro-%APPVEYOR_REPO_TAG_NAME%-win32-%locale%.tar.gz --format=posix --exclude='.git*' ygopro.exe LICENSE README.md lflist.conf strings.conf system.conf cards.cdb script textures deck single pics replay sound
