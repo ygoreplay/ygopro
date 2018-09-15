@@ -9,7 +9,7 @@ env:
   global:
   - USE_IRRKLANG: 1
 sudo: required
-dist: trusty
+dist: xenial
 osx_image: xcode8
 git:
   submodules: false
@@ -17,11 +17,11 @@ addons:
   ssh_known_hosts:
   - github.com
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
+    # sources:
+    #   - ubuntu-toolchain-r-test
     packages:
-      - gcc-6
-      - g++-6
+      # - gcc-6
+      # - g++-6
       - libfreetype6-dev
       - libevent-dev
       - libsqlite3-dev
@@ -30,7 +30,7 @@ addons:
       - libglu-dev
 before_install:
 - git submodule update --init --recursive
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc; sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++; fi
+# - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc; sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew install freetype libevent
   sqlite lua dylibbundler; curl --location --retry 5 https://github.com/premake/premake-core/releases/download/v5.0.0-alpha12/premake-5.0.0-alpha12-macosx.tar.gz
   | tar zfx -; fi
