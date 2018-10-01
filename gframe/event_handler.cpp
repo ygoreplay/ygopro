@@ -855,7 +855,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 					else if(conti_selecting)
 						mainGame->btnCardSelect[i]->setImage(imageManager.GetTexture(selectable_cards[i + pos]->chain_code));
 					else
-						mainGame->btnCardSelect[i]->setImage(imageManager.tCover[0]);
+						mainGame->btnCardSelect[i]->setImage(imageManager.tCover[selectable_cards[i + pos]->controler]);
 					mainGame->btnCardSelect[i]->setRelativePosition(rect<s32>(30 + i * 125, 55, 30 + 120 + i * 125, 225));
 					// text
 					wchar_t formatBuffer[2048];
@@ -916,7 +916,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 					if(display_cards[i + pos]->code)
 						mainGame->btnCardDisplay[i]->setImage(imageManager.GetTexture(display_cards[i + pos]->code));
 					else
-						mainGame->btnCardDisplay[i]->setImage(imageManager.tCover[0]);
+						mainGame->btnCardDisplay[i]->setImage(imageManager.tCover[display_cards[i + pos]->controler]);
 					mainGame->btnCardDisplay[i]->setRelativePosition(rect<s32>(30 + i * 125, 55, 30 + 120 + i * 125, 225));
 					wchar_t formatBuffer[2048];
 					if(display_cards[i + pos]->location == LOCATION_OVERLAY) {
@@ -979,13 +979,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 				if(mcard->code) {
 					mainGame->ShowCardInfo(mcard->code);
 				} else {
-					mainGame->imgCard->setImage(imageManager.tCover[0]);
-					mainGame->stName->setText(L"");
-					mainGame->stInfo->setText(L"");
-					mainGame->stDataInfo->setText(L"");
-					mainGame->stSetName->setText(L"");
-					mainGame->stText->setText(L"");
-					mainGame->scrCardText->setVisible(false);
+					mainGame->ClearCardInfo(mcard->controler);
 				}
 			}
 			if(id >= BUTTON_DISPLAY_0 && id <= BUTTON_DISPLAY_4) {
@@ -994,13 +988,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 				if(mcard->code) {
 					mainGame->ShowCardInfo(mcard->code);
 				} else {
-					mainGame->imgCard->setImage(imageManager.tCover[0]);
-					mainGame->stName->setText(L"");
-					mainGame->stInfo->setText(L"");
-					mainGame->stDataInfo->setText(L"");
-					mainGame->stSetName->setText(L"");
-					mainGame->stText->setText(L"");
-					mainGame->scrCardText->setVisible(false);
+					mainGame->ClearCardInfo(mcard->controler);
 				}
 			}
 			break;
@@ -1411,12 +1399,6 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 				break;
 			if(event.MouseInput.isLeftPressed())
 				break;
-			s32 x = event.MouseInput.X;
-			s32 y = event.MouseInput.Y;
-			irr::core::position2di pos(x, y);
-			irr::gui::IGUIElement* root = mainGame->env->getRootGUIElement();
-			if(root->getElementFromPoint(pos) == mainGame->btnCancelOrFinish)
-				mainGame->chkHideHintButton->setChecked(true);
 			if(mainGame->gameConf.control_mode == 1 && event.MouseInput.X > 300) {
 				mainGame->ignore_chain = event.MouseInput.isRightPressed();
 				mainGame->always_chain = false;
@@ -1463,6 +1445,12 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 				} else if(hovered_location == LOCATION_REMOVED) {
 					if(remove[hovered_controler].size()) {
 						mcard = remove[hovered_controler].back();
+						if(mcard->position & POS_FACEDOWN)
+							mcard = 0;
+					}
+				} else if(hovered_location == LOCATION_EXTRA) {
+					if(extra[hovered_controler].size()) {
+						mcard = extra[hovered_controler].back();
 						if(mcard->position & POS_FACEDOWN)
 							mcard = 0;
 					}
@@ -1522,7 +1510,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 								myswprintf(formatBuffer, L"\n%ls/%ls", mcard->atkstring, mcard->defstring);
 								str.append(formatBuffer);
 								if(!(mcard->type & TYPE_LINK)) {
-									wchar_t* form = L"\u2605";
+									const wchar_t* form = L"\u2605";
 									if (mcard->rank) form = L"\u2606";
 									myswprintf(formatBuffer, L"\n%ls%d", form, (mcard->level ? mcard->level : mcard->rank));
 									str.append(formatBuffer);
@@ -1574,13 +1562,7 @@ bool ClientField::OnEvent(const irr::SEvent& event) {
 						}
 					} else {
 						should_show_tip = false;
-						mainGame->imgCard->setImage(imageManager.tCover[0]);
-						mainGame->stName->setText(L"");
-						mainGame->stInfo->setText(L"");
-						mainGame->stDataInfo->setText(L"");
-						mainGame->stSetName->setText(L"");
-						mainGame->stText->setText(L"");
-						mainGame->scrCardText->setVisible(false);
+						mainGame->ClearCardInfo(mcard->controler);
 					}
 				}
 				hovered_card = mcard;
@@ -1802,6 +1784,11 @@ bool ClientField::OnCommonEvent(const irr::SEvent& event) {
 				mainGame->wChat->setVisible(show);
 				if(!show)
 					mainGame->ClearChatMsg();
+				return true;
+				break;
+			}
+			case CHECKBOX_QUICK_ANIMATION: {
+				mainGame->gameConf.quick_animation = mainGame->chkQuickAnimation->isChecked() ? 1 : 0;
 				return true;
 				break;
 			}
