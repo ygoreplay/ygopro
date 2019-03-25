@@ -10,7 +10,7 @@ env:
   - USE_IRRKLANG: 1
 sudo: required
 dist: xenial
-osx_image: xcode8
+osx_image: xcode9.4
 git:
   submodules: false
 addons:
