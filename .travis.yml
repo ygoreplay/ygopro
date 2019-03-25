@@ -10,7 +10,7 @@ env:
   - USE_IRRKLANG: 1
 sudo: required
 dist: xenial
-osx_image: xcode9.4
+osx_image: xcode8
 git:
   submodules: false
 addons:
@@ -40,11 +40,11 @@ before_install:
 # - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc; sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++; fi
 #  ls /usr/local/include ; sudo mv /usr/local/include /usr/local/include-bak; sudo mkdir /usr/local/include; chmod u+w /usr/local/include;
 #  brew install freetype libevent sqlite lua dylibbundler;
-- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
-  ls /usr/local/include;
-  sudo rm -rf /usr/local/include/unistring;
-  sudo rm -rf /usr/local/include/lzma;
-  sudo rm -f /usr/local/include/CGAL/stddef.h; fi
+#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
+#  ls /usr/local/include;
+#  sudo rm -rf /usr/local/include/unistring;
+#  sudo rm -rf /usr/local/include/lzma;
+#  sudo rm -f /usr/local/include/CGAL/stddef.h; fi
 #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name http://downloads.sourceforge.net/irrlicht/irrlicht-1.8.4.zip; unzip irrlicht-1.8.4.zip ; cd irrlicht-1.8.4/ ; cp ../premake/irrlicht/irrlicht-mac.patch . ; patch -p1 < irrlicht-mac.patch ; cd source/Irrlicht/MacOSX/ ; xcodebuild -project MacOSX.xcodeproj ; cp build/Release/libIrrlicht.a /usr/local/lib/ ;  cp -r ../../../include /usr/local/include/irrlicht ; cd ../../../../ ; fi
 
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir irrlicht ; cd irrlicht ; curl --retry 5 --location https://github.com/moecube/irrlicht/releases/download/test/irrlicht-mycard-mac.tar.gz | tar zfx - ; cp libIrrlicht.a /usr/local/lib/ ; sudo cp -r include /usr/local/include/irrlicht ; cd .. ; fi
@@ -79,7 +79,6 @@ script:
       echo $CERTIFICATE | base64 --decode --output cert.p12;
       security create-keychain -p "" build.keychain; security unlock-keychain -p "" build.keychain;
       security import cert.p12 -k build.keychain -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign;
-      security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k keychainPass keychainName;
       codesign --deep --keychain build.keychain --sign "$(security find-identity -v -p
       codesigning build.keychain | head -1 | grep -o '".*"' | tr -d '"')" ygopro.app;
     fi
