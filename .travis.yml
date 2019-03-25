@@ -44,6 +44,7 @@ before_install:
   ls /usr/local/include;
   sudo rm -rf /usr/local/include/unistring;
   sudo rm -rf /usr/local/include/lzma;
+  sudo rm -rf /usr/local/include/lua5.2;
   sudo rm -f /usr/local/include/CGAL/stddef.h; fi
 #- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name http://downloads.sourceforge.net/irrlicht/irrlicht-1.8.4.zip; unzip irrlicht-1.8.4.zip ; cd irrlicht-1.8.4/ ; cp ../premake/irrlicht/irrlicht-mac.patch . ; patch -p1 < irrlicht-mac.patch ; cd source/Irrlicht/MacOSX/ ; xcodebuild -project MacOSX.xcodeproj ; cp build/Release/libIrrlicht.a /usr/local/lib/ ;  cp -r ../../../include /usr/local/include/irrlicht ; cd ../../../../ ; fi
 
