@@ -27,19 +27,19 @@ project "ygopro"
         links { "opengl32", "ws2_32", "winmm", "gdi32", "kernel32", "user32", "imm32" }
     configuration {"windows", "not vs*"}
         includedirs { "/mingw/include/irrlicht", "/mingw/include/freetype2" }
+    configuration "not vs*"
+        buildoptions { "-std=c++14", "-fno-rtti" }
     configuration "not windows"
         includedirs { "/usr/include/irrlicht", "/usr/include/freetype2" }
         excludes { "COSOperator.*" }
         links { "event_pthreads", "GL", "dl", "pthread" }
     configuration "linux"
-        buildoptions { "-std=c++14", "-fno-rtti" }
         if USE_IRRKLANG then
             links { "IrrKlang" }
             linkoptions{ "-Wl,-rpath=./" }
             libdirs { "../irrklang/bin/linux-gcc-64" }
         end
     configuration "macosx"
-        buildoptions { "-fno-rtti" }
         if USE_IRRKLANG then
             links { "irrklang" }
             libdirs { "../irrklang/bin/macosx-gcc" }
