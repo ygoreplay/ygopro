@@ -5,7 +5,7 @@ project "ygopro"
     kind "WindowedApp"
 
     files { "**.cpp", "**.cc", "**.c", "**.h" }
-    excludes { "lzma/**" , "spmemvfs/**" }
+    excludes { "lzma/**", "spmemvfs/**" }
     includedirs { "../ocgcore" }
     links { "ocgcore", "clzma", "cspmemvfs", "Irrlicht", "freetype", "sqlite3", "lua" , "event" }
     if USE_IRRKLANG then
