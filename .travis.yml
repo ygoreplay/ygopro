@@ -79,6 +79,7 @@ script:
       echo $CERTIFICATE | base64 --decode --output cert.p12;
       security create-keychain -p "" build.keychain; security default-keychain -s build.keychain; security unlock-keychain -p "" build.keychain;
       security import cert.p12 -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign;
+      security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
       codesign --deep --sign "$(security find-identity -v -p codesigning build.keychain | head -1 | grep -o '".*"' | tr -d '"')" ygopro.app;
     fi
   fi
