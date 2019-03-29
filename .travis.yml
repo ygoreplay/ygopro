@@ -33,23 +33,17 @@ addons:
       - freetype
       - libevent
       - sqlite
-      - lua
       - dylibbundler
 before_install:
 - git submodule update --init --recursive
 # - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc; sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++; fi
-#  ls /usr/local/include ; sudo mv /usr/local/include /usr/local/include-bak; sudo mkdir /usr/local/include; chmod u+w /usr/local/include;
 #  brew install freetype libevent sqlite lua dylibbundler;
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
-  ls /usr/local/include;
   sudo rm -rf /usr/local/include/unistring;
   sudo rm -rf /usr/local/include/lzma;
   sudo rm -f /usr/local/include/CGAL/stddef.h; fi
-#- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name http://downloads.sourceforge.net/irrlicht/irrlicht-1.8.4.zip; unzip irrlicht-1.8.4.zip ; cd irrlicht-1.8.4/ ; cp ../premake/irrlicht/irrlicht-mac.patch . ; patch -p1 < irrlicht-mac.patch ; cd source/Irrlicht/MacOSX/ ; xcodebuild -project MacOSX.xcodeproj ; cp build/Release/libIrrlicht.a /usr/local/lib/ ;  cp -r ../../../include /usr/local/include/irrlicht ; cd ../../../../ ; fi
 
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir irrlicht ; cd irrlicht ; curl --retry 5 --location https://github.com/moecube/irrlicht/releases/download/test/irrlicht-mycard-mac.tar.gz | tar zfx - ; cp libIrrlicht.a /usr/local/lib/ ; sudo cp -r include /usr/local/include/irrlicht ; cd .. ; fi
-
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then curl --retry 5 --location https://www.lua.org/ftp/lua-5.3.5.tar.gz | tar zfx -; cd lua-5.3.5; sudo make linux install; cd .. ; fi
 
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then curl --retry 5 --location https://github.com/premake/premake-core/releases/download/v5.0.0-alpha12/premake-5.0.0-alpha12-macosx.tar.gz | tar zfx -; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then curl --retry 5 --location https://github.com/premake/premake-core/releases/download/v5.0.0-alpha12/premake-5.0.0-alpha12-linux.tar.gz | tar zfx - ; fi
