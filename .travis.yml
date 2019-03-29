@@ -77,9 +77,9 @@ script:
     defaults write "$PWD/ygopro.app/Contents/Info.plist" "CFBundleIdentifier" "moe.mycard.ygopro";
     if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
       echo $CERTIFICATE | base64 --decode --output cert.p12;
-      security create-keychain -p "" build.keychain; security unlock-keychain -p "" build.keychain;
-      security import cert.p12 -k build.keychain -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign;
-      codesign --deep --keychain build.keychain --sign "$(security find-identity -v -p codesigning build.keychain | head -1 | grep -o '".*"' | tr -d '"')" ygopro.app;
+      security create-keychain -p "" build.keychain; security default-keychain -s build.keychain; security unlock-keychain -p "" build.keychain;
+      security import cert.p12 -P "$CERTIFICATE_PASSWORD" -T /usr/bin/codesign;
+      codesign --deep --sign "$(security find-identity -v -p codesigning build.keychain | head -1 | grep -o '".*"' | tr -d '"')" ygopro.app;
     fi
   fi
 before_deploy:
