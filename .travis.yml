@@ -37,6 +37,7 @@ before_install:
   sudo rm -rf /usr/local/include/unistring;
   sudo rm -rf /usr/local/include/lzma;
   sudo rm -rf /usr/local/include/bits;
+  sudo rm -rf /usr/local/include/sys;
   sudo rm -f /usr/local/include/features.h;
   sudo rm -f /usr/local/include/stdint.h;
   sudo cat /usr/include/sys/resource.h;
