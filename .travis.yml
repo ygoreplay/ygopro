@@ -38,6 +38,7 @@ before_install:
   sudo rm -rf /usr/local/include/lzma;
   sudo rm -rf /usr/local/include/bits;
   sudo rm -f /usr/local/include/features.h;
+  sudo cat /usr/include/sys/resource.h;
   sudo rm -f /usr/local/include/CGAL/stddef.h; fi
 
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir irrlicht ; cd irrlicht ; curl --retry 5 --location https://github.com/moecube/irrlicht/releases/download/test/irrlicht-mycard-mac.tar.gz | tar zfx - ; cp libIrrlicht.a /usr/local/lib/ ; sudo cp -r include /usr/local/include/irrlicht ; cd .. ; fi
