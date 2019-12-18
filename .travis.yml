@@ -34,7 +34,7 @@ before_install:
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
   brew update;
   brew install freetype libevent sqlite dylibbundler;
-  ls /usr/local/include/;
+  sudo mv -r /usr/local/include/freetype2 /usr/include/freetype2;
   sudo rm -rf /usr/local/include/*; fi
 
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir irrlicht ; cd irrlicht ; curl --retry 5 --location https://github.com/moecube/irrlicht/releases/download/test/irrlicht-mycard-mac.tar.gz | tar zfx - ; cp libIrrlicht.a /usr/local/lib/ ; sudo cp -r include /usr/local/include/irrlicht ; cd .. ; fi
