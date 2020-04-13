@@ -14,8 +14,17 @@ solution "ygo"
         defines { "WIN32", "_WIN32", "WINVER=0x0501" }
         libdirs { "$(DXSDK_DIR)Lib/x86" }
         entrypoint "mainCRTStartup"
-        toolset "v140_xp"
+        systemversion "latest"
         startproject "ygopro"
+        
+    configuration { "windows", "vs2015" }
+        toolset "v140_xp"
+
+    configuration { "windows", "vs2017" }
+        toolset "v141_xp"
+
+    configuration { "windows", "vs2019" }
+        toolset "v141_xp"
 
     configuration "bsd"
         defines { "LUA_USE_POSIX" }
@@ -42,8 +51,9 @@ solution "ygo"
         targetdir "bin/debug"
 
     configuration { "Release", "vs*" }
-        flags { "StaticRuntime", "LinkTimeOptimization" }
-        disablewarnings { "4244", "4267", "4838", "4577", "4819", "4018", "4996", "4477", "4091", "4305" }
+        flags { "LinkTimeOptimization" }
+        staticruntime "On"
+        disablewarnings { "4244", "4267", "4838", "4577", "4819", "4018", "4996", "4477", "4091", "4828", "4800" }
 
     configuration { "Release", "not vs*" }
         symbols "On"
@@ -52,7 +62,7 @@ solution "ygo"
 
     configuration { "Debug", "vs*" }
         defines { "_ITERATOR_DEBUG_LEVEL=0" }
-        disablewarnings { "4819" }
+        disablewarnings { "4819", "4828" }
 
     configuration "vs*"
         vectorextensions "SSE2"
@@ -64,10 +74,10 @@ solution "ygo"
     configuration {"not vs*", "windows"}
         buildoptions { "-static-libgcc" }
 
-    include "lua"
     include "ocgcore"
     include "gframe"
 	if os.ishost("windows") then
+		include "lua"
 		include "event"
 		include "freetype"
 		include "irrlicht"
