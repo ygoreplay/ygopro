@@ -42,6 +42,7 @@ before_install:
   sudo cp -r ./freetype2 /usr/local/include/freetype2;
   sudo cp -r ./event2 /usr/local/include/event2;
   sudo cp -r ./lua /usr/local/include/lua;
+  ls /usr/local/lib/;
   fi
 
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then mkdir irrlicht ; cd irrlicht ; curl --retry 5 --location https://github.com/moecube/irrlicht/releases/download/test/irrlicht-mycard-mac.tar.gz | tar zfx - ; cp libIrrlicht.a /usr/local/lib/ ; sudo cp -r include /usr/local/include/irrlicht ; cd .. ; fi
