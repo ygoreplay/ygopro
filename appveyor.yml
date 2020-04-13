@@ -99,6 +99,6 @@ branches:
 cache:
   - premake-5.0.0-alpha14-windows.zip
   - libevent-2.0.22-stable.tar.gz
-  - freetype-2.10.1.tar.bz2
+  - freetype-2.10.1.tar.gz
   - irrlicht-1.8.4.zip
   - sqlite-amalgamation-3310100.zip
