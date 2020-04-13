@@ -6,3 +6,6 @@ project "lua"
 
     configuration "vs*"	
         buildoptions { "/TP" }
+
+    configuration "not vs*"	
+        buildoptions { "-x c++" }
