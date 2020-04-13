@@ -42,7 +42,7 @@ before_install:
   sudo cp -r ./event2 /usr/local/include/event2;
 
   curl --retry 5 --location https://www.lua.org/ftp/lua-5.3.5.tar.gz | tar zfx -;
-  move lua-5.3.5/src lua;
+  mv lua-5.3.5/src lua;
   cp premake/lua/premake4.lua lua/;
   fi
 
