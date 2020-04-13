@@ -43,7 +43,7 @@ project "ygopro"
             libdirs { "../irrklang/bin/linux-gcc-64" }
         end
     configuration "macosx"
-		links { "lua-c++" }
+		links { "lua" }
         if USE_IRRKLANG then
             links { "irrklang" }
             libdirs { "../irrklang/bin/macosx-gcc" }

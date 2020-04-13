@@ -76,6 +76,9 @@ solution "ygo"
 
     include "ocgcore"
     include "gframe"
+	if os.ishost("macosx") then
+		include "lua"
+	end
 	if os.ishost("windows") then
 		include "lua"
 		include "event"
