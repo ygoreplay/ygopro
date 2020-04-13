@@ -34,14 +34,16 @@ project "ygopro"
     configuration "not windows"
         includedirs { "/usr/include/irrlicht", "/usr/include/freetype2" }
         excludes { "COSOperator.*" }
-        links { "lua5.3-c++", "event_pthreads", "GL", "dl", "pthread" }
+        links { "event_pthreads", "GL", "dl", "pthread" }
     configuration "linux"
+		links { "lua5.3-c++" }
         if USE_IRRKLANG then
             links { "IrrKlang" }
             linkoptions{ "-Wl,-rpath=./" }
             libdirs { "../irrklang/bin/linux-gcc-64" }
         end
     configuration "macosx"
+		links { "lua5.3" }
         if USE_IRRKLANG then
             links { "irrklang" }
             libdirs { "../irrklang/bin/macosx-gcc" }
