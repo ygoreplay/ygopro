@@ -158,6 +158,12 @@ public:
 		return focus && focus->hasType(type);
 	}
 
+	void TrimText(irr::gui::IGUIElement* editbox) const {
+		irr::core::stringw text(editbox->getText());
+		text.trim();
+		editbox->setText(text.c_str());
+	}
+
 	void OnResize();
 	recti Resize(s32 x, s32 y, s32 x2, s32 y2);
 	recti Resize(s32 x, s32 y, s32 x2, s32 y2, s32 dx, s32 dy, s32 dx2, s32 dy2);
@@ -699,6 +705,7 @@ extern Game* mainGame;
 #define BUTTON_MARKS_FILTER			322
 #define BUTTON_MARKERS_OK			323
 #define COMBOBOX_SORTTYPE			324
+#define EDITBOX_INPUTS				325
 #define BUTTON_CLEAR_LOG			350
 #define LISTBOX_LOG					351
 #define SCROLL_CARDTEXT				352
@@ -717,7 +724,7 @@ extern Game* mainGame;
 #define CHECKBOX_MULTI_KEYWORDS		372
 #define CHECKBOX_PREFER_EXPANSION	373
 
-#define DEFAULT_DUEL_RULE			4
+#define DEFAULT_DUEL_RULE			5
 
 #define CARD_ARTWORK_VERSIONS_OFFSET	10
 #endif // GAME_H
