@@ -68,7 +68,7 @@ after_build:
   - cp locales/%locale%/* .
   - mkdir replay
   - mkdir pics
-  - curl --location --retry 5 --output ygopro-images-%locale%.zip https://cdn01.moecube.com/images/ygopro-images-%locale%.zip
+  - curl --location --retry 5 --output ygopro-images-%locale%.zip https://minio-tokin.mycard.moe:9001/mycard/images/ygopro-images-%locale%.zip
   - unzip -q -d pics ygopro-images-%locale%.zip
   - curl --location --retry 5 --output ygopro-starter-pack-master.zip https://github.com/moecube/ygopro-starter-pack/archive/master.zip
   - unzip -q ygopro-starter-pack-master.zip
