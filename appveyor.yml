@@ -18,13 +18,6 @@ install:
   - git submodule update --init --recursive
   
   # environment and system dependency
-  - bash -c "curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://download.microsoft.com/download/A/E/7/AE743F1F-632B-4809-87A9-AA1BB3458E31/DXSDK_Jun10.exe ; exit 0"
-  # https://docs.microsoft.com/en-us/troubleshoot/windows/win32/s1023-error-when-you-install-directx-sdk
-  - MsiExec.exe /passive /X{F0C3E5D1-1ADE-321E-8167-68EF0DE699A5}
-  - MsiExec.exe /passive /X{1D8E6291-B0D5-35EC-8441-6616F567A0F7}
-  - DXSDK_Jun10.exe /F /U
-  - set DXSDK_DIR=C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\
-  
   - bash -c "curl --retry 5 --connect-timeout 30 --location --remote-header-name --remote-name https://github.com/premake/premake-core/releases/download/v5.0.0-alpha14/premake-5.0.0-alpha14-windows.zip ; exit 0"
   - 7z x premake-5.0.0-alpha14-windows.zip
   
@@ -110,4 +103,3 @@ cache:
   - irrlicht-1.8.4.zip
   - lua-5.3.5.tar.gz
   - sqlite-amalgamation-3310100.zip
-  - DXSDK_Jun10.exe
