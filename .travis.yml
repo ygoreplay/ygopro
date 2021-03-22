@@ -33,7 +33,7 @@ before_install:
 - git submodule update --init --recursive
 # - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc; sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then 
-  brew uninstall --cask --force java;
+  brew cask uninstall --force java;
   brew install freetype libevent sqlite dylibbundler;
   sudo cp -r /usr/local/include/freetype2 ./freetype2;
   sudo cp -r /usr/local/include/event2 ./event2;
