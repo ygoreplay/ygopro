@@ -2,12 +2,6 @@ solution "ygo"
     location "build"
     language "C++"
     objdir "obj"
-    if os.ishost("windows") or os.getenv("USE_IRRKLANG") then
-        USE_IRRKLANG = true
-        if os.getenv("irrklang_pro") then
-            IRRKLANG_PRO = true
-        end
-    end
 
     configurations { "Release", "Debug" }
     configuration "windows"
@@ -16,7 +10,7 @@ solution "ygo"
         entrypoint "mainCRTStartup"
         systemversion "latest"
         startproject "ygopro"
-        
+
     configuration { "windows", "vs2015" }
         toolset "v140_xp"
 
@@ -67,7 +61,7 @@ solution "ygo"
     configuration "vs*"
         vectorextensions "SSE2"
         defines { "_CRT_SECURE_NO_WARNINGS" }
-    
+
     configuration "not vs*"
         buildoptions { "-fno-strict-aliasing", "-Wno-multichar" }
 
