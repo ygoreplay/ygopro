@@ -10,3 +10,8 @@
 /obj/
 /sqlite3/
 premake5.exe
+/*.tar.gz
+/*.zip
+/lua-*
+/irrlicht-*
+/.idea
