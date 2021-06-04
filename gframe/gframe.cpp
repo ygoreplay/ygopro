@@ -3,6 +3,8 @@
 #include "data_manager.h"
 #include <event2/thread.h>
 #include <memory>
+
+#include "replay_mode.h"
 #ifdef __APPLE__
 #import <CoreFoundation/CoreFoundation.h>
 #endif
@@ -74,108 +76,16 @@ int main(int argc, char* argv[]) {
 	}
 #endif //_WIN32
 
-	bool keep_on_return = false;
-	for(int i = 1; i < wargc; ++i) {
-		if(wargv[i][0] == L'-' && wargv[i][1] == L'e' && wargv[i][2] != L'\0') {
-			ygo::dataManager.LoadDB(&wargv[i][2]);
-			continue;
-		}
-		if(!wcscmp(wargv[i], L"-e")) { // extra database
-			++i;
-			if(i < wargc) {
-				ygo::dataManager.LoadDB(wargv[i]);
-			}
-			continue;
-		} else if(!wcscmp(wargv[i], L"-n")) { // nickName
-			++i;
-			if(i < wargc)
-				ygo::mainGame->ebNickName->setText(wargv[i]);
-			continue;
-		} else if(!wcscmp(wargv[i], L"-h")) { // Host address
-			++i;
-			if(i < wargc)
-				ygo::mainGame->ebJoinHost->setText(wargv[i]);
-			continue;
-		} else if(!wcscmp(wargv[i], L"-p")) { // host Port
-			++i;
-			if(i < wargc)
-				ygo::mainGame->ebJoinPort->setText(wargv[i]);
-			continue;
-		} else if(!wcscmp(wargv[i], L"-w")) { // host passWord
-			++i;
-			if(i < wargc)
-				ygo::mainGame->ebJoinPass->setText(wargv[i]);
-			continue;
-		} else if(!wcscmp(wargv[i], L"-k")) { // Keep on return
-			exit_on_return = false;
-			keep_on_return = true;
-		} else if(!wcscmp(wargv[i], L"-d")) { // Deck
-			++i;
-			ygo::mainGame->gameConf.lastcategory[0] = 0;
-			if(i + 1 < wargc) { // select deck
-				wcscpy(ygo::mainGame->gameConf.lastdeck, wargv[i]);
-				continue;
-			} else { // open deck
-				exit_on_return = !keep_on_return;
-				if(i < wargc) {
-					open_file = true;
-					wcscpy(open_file_name, wargv[i]);
-				}
-				ClickButton(ygo::mainGame->btnDeckEdit);
-				break;
-			}
-		} else if(!wcscmp(wargv[i], L"-c")) { // Create host
-			exit_on_return = !keep_on_return;
-			ygo::mainGame->HideElement(ygo::mainGame->wMainMenu);
-			ClickButton(ygo::mainGame->btnHostConfirm);
-			break;
-		} else if(!wcscmp(wargv[i], L"-j")) { // Join host
-			exit_on_return = !keep_on_return;
-			ygo::mainGame->HideElement(ygo::mainGame->wMainMenu);
-			ClickButton(ygo::mainGame->btnJoinHost);
-			break;
-		} else if(!wcscmp(wargv[i], L"-r")) { // Replay
-			exit_on_return = !keep_on_return;
-			++i;
-			if(i < wargc) {
-				open_file = true;
-				wcscpy(open_file_name, wargv[i]);
-			}
-			ClickButton(ygo::mainGame->btnReplayMode);
-			if(open_file)
-				ClickButton(ygo::mainGame->btnLoadReplay);
-			break;
-		} else if(!wcscmp(wargv[i], L"-s")) { // Single
-			exit_on_return = !keep_on_return;
-			++i;
-			if(i < wargc) {
-				open_file = true;
-				wcscpy(open_file_name, wargv[i]);
-			}
-			ClickButton(ygo::mainGame->btnSingleMode);
-			if(open_file)
-				ClickButton(ygo::mainGame->btnLoadSinglePlay);
-			break;
-		} else if(wargc == 2 && wcslen(wargv[1]) >= 4) {
-			wchar_t* pstrext = wargv[1] + wcslen(wargv[1]) - 4;
-			if(!mywcsncasecmp(pstrext, L".ydk", 4)) {
-				open_file = true;
-				wcscpy(open_file_name, wargv[i]);
-				exit_on_return = !keep_on_return;
-				ClickButton(ygo::mainGame->btnDeckEdit);
-				break;
-			}
-			if(!mywcsncasecmp(pstrext, L".yrp", 4)) {
-				open_file = true;
-				wcscpy(open_file_name, wargv[i]);
-				exit_on_return = !keep_on_return;
-				ClickButton(ygo::mainGame->btnReplayMode);
-				ClickButton(ygo::mainGame->btnLoadReplay);
-				break;
-			}
-		}
-	}
-	ygo::mainGame->MainLoop();
+	using ygo::mainGame;
+
+	mainGame->ClearCardInfo();
+	mainGame->dField.Clear();
+	mainGame->HideElement(mainGame->wReplay);
+	mainGame->device->setEventReceiver(&mainGame->dField);
+
+    ygo::ReplayMode::StartReplay(0);
+
+	mainGame->MainLoop();
 #ifdef _WIN32
 	WSACleanup();
 #else

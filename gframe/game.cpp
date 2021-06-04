@@ -1089,7 +1089,7 @@ void Game::LoadExpansions() {
 		const IFileList* archive = DataManager::FileSystem->getFileArchive(i)->getFileList();
 		for(u32 j = 0; j < archive->getFileCount(); ++j) {
 #ifdef _WIN32
-			const wchar_t* fname = archive->getFullFileName(j).c_str();
+			const wchar_t* fname = L""; //  archive->getFullFileName(j).c_str();
 #else
 			wchar_t fname[1024];
 			const char* uname = archive->getFullFileName(j).c_str();
