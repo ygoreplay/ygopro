@@ -78,6 +78,10 @@ int main(int argc, char* argv[]) {
 
 	using ygo::mainGame;
 
+	mainGame->RefreshReplay();
+
+	ygo::ReplayMode::cur_replay.OpenReplay(wargv[1]);
+
 	mainGame->ClearCardInfo();
 	mainGame->dField.Clear();
 	mainGame->HideElement(mainGame->wReplay);
